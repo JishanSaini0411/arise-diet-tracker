@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#606b3f"><link rel="manifest" href="manifest.json">
+<title>ARISE — Small habits. Stronger you.</title>
+<style>
+:root{--olive:#606b3f;--beige:#e9dfc9;--purple:#a879e8;--plum:#332a3d;--paper:#f7f4ec;--ink:#292820;--muted:#777467}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:var(--olive);color:white;padding:22px 18px 18px;border-radius:0 0 24px 24px}
+.brand{font-size:30px;font-weight:850;letter-spacing:2px}.tag{font-size:12px;opacity:.9;letter-spacing:1px}
+main{max-width:760px;margin:auto;padding:16px 14px 90px}.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:15px 0}
+button,.tab{border:0;border-radius:12px;padding:11px 9px;font-weight:650;background:var(--beige);color:var(--plum);cursor:pointer}
+.tab.active{background:var(--plum);color:white}.panel{display:none}.panel.active{display:block}
+.card{background:white;border:1px solid #e5dfd2;border-radius:17px;padding:15px;margin:12px 0;box-shadow:0 3px 12px #3028180b}
+h2{font-size:19px;margin:5px 0 12px}h3{font-size:15px;margin:12px 0 8px;color:var(--olive)}
+.muted{color:var(--muted);font-size:12px}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+input,textarea,select{width:100%;padding:10px;border:1px solid #d9d2c5;border-radius:10px;margin:5px 0 9px;background:#fff;font:inherit}
+textarea{min-height:70px}label{font-size:12px;font-weight:700;color:var(--muted)}
+.item{display:flex;gap:9px;align-items:flex-start;padding:9px 0;border-bottom:1px solid #eee9df}.item:last-child{border:0}
+.item input{width:auto;margin:3px 0}.item span{flex:1}
+.primary{background:var(--olive);color:white}.dark{background:var(--plum);color:white}.accent{background:var(--purple);color:white}
+.small{padding:7px 10px;font-size:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.metric{background:var(--beige);padding:13px;border-radius:13px}.metric b{font-size:21px;display:block;color:var(--plum)}
+.progress{height:9px;background:#eee9df;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:var(--purple);width:0}
+ul{padding-left:20px}.hidden{display:none}.pill{font-size:11px;background:#f0e8fb;color:var(--plum);padding:4px 8px;border-radius:99px}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:15px}
+</style>
+</head>
+<body>
+<header><div class="brand">ARISE</div><div class="tag">SMALL HABITS. STRONGER YOU.</div><p style="margin:12px 0 0">Your personal diet & workout companion</p></header>
+<main>
+<div class="tabs">
+<button class="tab active" data-tab="home">Home</button><button class="tab" data-tab="diet">Diet</button><button class="tab" data-tab="workout">Workout</button><button class="tab" data-tab="records">Records</button>
+</div>
+<section id="home" class="panel active">
+<div class="card"><div class="row"><h2>Today at a glance</h2><input id="date" type="date" style="max-width:150px"></div>
+<div class="grid"><div class="metric"><span class="muted">Diet completion</span><b id="dietScore">0%</b></div><div class="metric"><span class="muted">Workout completion</span><b id="workScore">0%</b></div></div>
+<p class="muted">Completion reflects checklist items you mark done, not a judgement of your food or fitness.</p>
+<div class="progress"><i id="overallBar"></i></div><p id="overallText" class="muted">Start with one small habit.</p></div>
+<div class="card"><h2>Water tracker</h2><div class="row"><b><span id="waterCount">0</span> glasses</b><span class="muted">Daily log</span></div><div class="row"><button class="primary" id="waterPlus">+ Add glass</button><button id="waterMinus">− Remove</button></div></div>
+<div class="card"><h2>Quick notes</h2><textarea id="dailyNote" placeholder="How did today feel? Any meal or workout notes?"></textarea><button class="primary" id="saveNote">Save note</button></div>
+</section>
+<section id="diet" class="panel">
+<div class="card"><h2>Today's meals</h2><p class="muted">Tick meals or items as you complete them. Edit this routine whenever you need.</p><div id="mealList"></div></div>
+<div class="card"><h2>Nutrition dashboard</h2><p class="muted">Optional estimates only. Values can be edited; they are not medical targets.</p><div class="grid">
+<label>Energy estimate (kcal)<input id="kcal" type="number" value="0"></label><label>Protein estimate (g)<input id="protein" type="number" value="0"></label>
+<label>Carbs estimate (g)<input id="carbs" type="number" value="0"></label><label>Fat estimate (g)<input id="fat" type="number" value="0"></label></div><button class="primary" id="saveNutrition">Save nutrition estimates</button></div>
+<div class="card"><h2>Meal notes & substitutions</h2><label>Meal / food</label><input id="foodName" placeholder="e.g. Lunch vegetable"><label>What I ate / substitute</label><input id="foodSwap" placeholder="Record what you actually ate"><label>Nutrition note (optional)</label><input id="foodNutrition" placeholder="Enter your own estimate"><button class="primary" id="addFoodNote">Save meal note</button><div id="foodNotes"></div></div>
+<div class="card"><h2>Edit diet routine</h2><label>Meal name</label><input id="newMealName" placeholder="e.g. Evening snack"><label>Items (one per line)</label><textarea id="newMealItems" placeholder="Food item and quantity"></textarea><button class="primary" id="addMeal">Add meal</button><div id="editMeals"></div></div>
+<div class="card"><h2>Weekly food history</h2><div id="foodHistory" class="muted">Your daily meal ticks will appear here.</div></div>
+</section>
+<section id="workout" class="panel">
+<div class="card"><h2>Today's workout</h2><label>Choose day</label><select id="workoutDay"></select><div id="exerciseList"></div><p class="muted">Use comfortable loads, controlled technique and recovery days. Your routine is editable.</p></div>
+<div class="card"><h2>Exercise library & notes</h2><label>Exercise name</label><input id="libName" placeholder="Exercise"><label>Technique / personal notes</label><textarea id="libNote" placeholder="Your notes"></textarea><button class="primary" id="addLibrary">Save exercise</button><div id="libraryList"></div></div>
+<div class="card"><h2>Workout split editor</h2><label>Day name</label><input id="splitDay" placeholder="e.g. Monday"><label>Exercises (one per line: Name | sets | reps)</label><textarea id="splitExercises" placeholder="Leg press | 3 | 10"></textarea><button class="primary" id="saveSplit">Save / replace day</button></div>
+<div class="card"><h2>Recovery check-in</h2><label>How are you feeling?</label><select id="recovery"><option>Feeling okay</option><option>Well rested</option><option>A bit tired</option><option>Need extra rest</option></select><textarea id="recoveryNote" placeholder="Optional recovery notes"></textarea><button class="primary" id="saveRecovery">Save check-in</button></div>
+</section>
+<section id="records" class="panel">
+<div class="card"><h2>Personal records (PR)</h2><label>Exercise</label><input id="prExercise" placeholder="e.g. Leg press"><div class="grid"><div><label>Weight / resistance</label><input id="prWeight" placeholder="e.g. 40 kg"></div><div><label>Reps</label><input id="prReps" type="number" placeholder="10"></div></div><label>Date</label><input id="prDate" type="date"><label>Note (optional)</label><input id="prNote" placeholder="How it went"><button class="primary" id="addPR">Add PR</button><div id="prList"></div></div>
+<div class="card"><h2>Progress history</h2><div id="history"></div></div>
+<div class="card"><h2>Backup & restore</h2><p class="muted">Export a backup file and keep it somewhere safe. Restore a previous ARISE backup when needed.</p><button class="primary" id="export">Export backup</button><label>Restore backup file</label><input type="file" id="restoreFile" accept="application/json"></div>
+</section>
+<footer>ARISE · Your data is stored on this device in this prototype. Export backups regularly.</footer>
+</main>
+<script>
+const KEY='arise_v1';
+const defaultMeals=[
+{name:'Breakfast · 6:00–6:40 AM',items:['2 eggs','4 slices atta bread','Onion 30 g','Tomato 40 g','Oil 1 tsp']},
+{name:'Lunch',items:['Rice 40 g (raw)','Soya chunks 60 g (dry)','Vegetables 150 g','Oil 2 tsp','Curd 100 g if tolerated']},
+{name:'Pre-workout',items:['1 banana (100–120 g edible)','Peanut butter 16 g','Roasted chana 30 g']},
+{name:'Post-workout',items:['2 boiled eggs','Moong 40 g (dry before soaking)','Onion 30 g','Tomato 40 g','Half lemon']},
+{name:'Dinner',items:['2 rotis (60 g atta total)','Dal / rajma / chole / chana 70 g dry','Soya chunks 20 g dry','Oil 1 tsp','Salad: cucumber 50 g, tomato 40 g, onion 20 g, carrot 30 g']}
+];
+const defaultSplit={
+'Monday':['Leg Press OR Smith-machine Squats | 3 | 10–12','Leg Extension | 2–3 | 12','Hamstring Curl | 3 | 12','Dumbbell Romanian Deadlift | 2 | 10','Calf Raises | 3 | 12–15'],
+'Tuesday':['Incline Smith Machine Press | 3 | 10','Machine Chest Press | 3 | 10','High-to-Low Cable Fly | 2 | 12','Shoulder Press Machine | 2 | 10','Lateral Raises | 3 | 12','Shrugs | 2 | 12','Preacher Curls | 3 | 10–12','Hammer Curls | 2 | 12'],
+'Wednesday':['Lat Pulldown | 3 | 10','Seated Cable Row | 3 | 12','Back Extensions | 2 | 12','Straight-Arm Pulldown | 2 | 12','Triceps Pushdown | 3 | 12','Overhead Triceps Extension | 2 | 12'],
+'Thursday':['Smith-machine Squats | 3 | 10','Leg Extension | 2–3 | 12','Lying / Seated Hamstring Curl | 3 | 12','Calf Raises | 3 | 15'],
+'Friday':['Incline Machine Press | 3 | 10','Dumbbell Bench Press | 2 | 10','Cable Fly | 2 | 12','Lateral Raises | 3 | 15','Rear Delt Fly | 2 | 12','Cable Biceps Curls | 2 | 12'],
+'Saturday':['Assisted Pull-ups | 3 | 8','One-Arm Cable Row | 2 | 12','Face Pulls | 2 | 15','Triceps Pushdown | 2 | 12','Abs Machine Crunch | 2 | 12','Plank | 2 | 30 sec'],
+'Sunday':['Rest / recovery day']
+};
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{meals:defaultMeals,split:defaultSplit,days:{},prs:[],library:[],notes:[],nutrition:{},recovery:{}};
+const save=()=>localStorage.setItem(KEY,JSON.stringify(db));
+const dateEl=document.getElementById('date');dateEl.value=new Date().toISOString().slice(0,10);
+const day=()=>dateEl.value;const dayData=()=>db.days[day()]||(db.days[day()]={diet:{},work:{},water:0,note:''});
+function tabs(){document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab,.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');render()})}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderDiet(){let d=dayData();mealList.innerHTML=db.meals.map((m,mi)=>`<h3>${esc(m.name)}</h3>`+m.items.map((it,ii)=>`<label class="item"><input type="checkbox" data-m="${mi}" data-i="${ii}" ${d.diet[mi+'-'+ii]?'checked':''}><span>${esc(it)}</span></label>`).join('')).join('');mealList.querySelectorAll('input').forEach(x=>x.onchange=()=>{d.diet[x.dataset.m+'-'+x.dataset.i]=x.checked;save();renderHome()});editMeals.innerHTML=db.meals.map((m,i)=>`<p>${esc(m.name)} <button class="small" data-delmeal="${i}">Remove</button></p>`).join('');editMeals.querySelectorAll('button').forEach(b=>b.onclick=()=>{db.meals.splice(+b.dataset.delmeal,1);save();render()});foodNotes.innerHTML=db.notes.filter(n=>n.date===day()).map(n=>`<p><b>${esc(n.name)}</b>: ${esc(n.swap)} <span class="muted">${esc(n.nutrition)}</span></p>`).join('');foodHistory.innerHTML=Object.keys(db.days).sort().slice(-7).reverse().map(k=>`<p>${k}: ${Object.values(db.days[k].diet||{}).filter(Boolean).length} items checked</p>`).join('')||'No history yet.'}
+function renderWorkout(){workoutDay.innerHTML=Object.keys(db.split).map(k=>`<option>${esc(k)}</option>`).join('');let chosen=workoutDay.value||Object.keys(db.split)[0];workoutDay.value=chosen;let d=dayData();exerciseList.innerHTML=(db.split[chosen]||[]).map((s,i)=>{let a=s.split('|').map(x=>x.trim());return `<div class="item"><input type="checkbox" data-ex="${i}" ${d.work[chosen+'-'+i]?.done?'checked':''}><span><b>${esc(a[0])}</b><br><span class="muted">${esc(a[1]||'')} sets × ${esc(a[2]||'')} reps</span><div class="grid"><input placeholder="Sets completed" type="number" data-set="${i}" value="${d.work[chosen+'-'+i]?.sets||''}"><input placeholder="Reps completed" type="number" data-rep="${i}" value="${d.work[chosen+'-'+i]?.reps||''}"></div></span></div>`}).join('');exerciseList.querySelectorAll('[data-ex]').forEach(x=>x.onchange=()=>{let k=chosen+'-'+x.dataset.ex;d.work[k]=d.work[k]||{};d.work[k].done=x.checked;save();renderHome()});exerciseList.querySelectorAll('[data-set],[data-rep]').forEach(x=>x.onchange=()=>{let k=chosen+'-'+(x.dataset.set??x.dataset.rep);d.work[k]=d.work[k]||{};d.work[k][x.dataset.set?'sets':'reps']=x.value;save()});libraryList.innerHTML=db.library.map(x=>`<p><b>${esc(x.name)}</b> — ${esc(x.note)}</p>`).join('')}
+function renderHome(){let d=dayData(),dietTotal=db.meals.reduce((n,m)=>n+m.items.length,0),dietDone=Object.values(d.diet).filter(Boolean).length,workItems=Object.values(db.split).flat().filter(x=>!x.toLowerCase().includes('rest')).length,workDone=Object.values(d.work).filter(x=>x.done).length;let ds=dietTotal?Math.round(dietDone/dietTotal*100):0,ws=workItems?Math.round(workDone/workItems*100):0;dietScore.textContent=ds+'%';workScore.textContent=ws+'%';overallBar.style.width=Math.round((ds+ws)/2)+'%';overallText.textContent=`${dietDone}/${dietTotal} diet items · ${workDone}/${workItems} workout items checked`;waterCount.textContent=d.water;dailyNote.value=d.note||''}
+function renderPR(){prList.innerHTML=db.prs.slice().reverse().map(p=>`<p><b>${esc(p.exercise)}</b> — ${esc(p.weight)} × ${esc(p.reps)} reps <span class="muted">${esc(p.date)}</span><br>${esc(p.note||'')}</p>`).join('')||'No PRs recorded yet.';history.innerHTML=db.prs.length?db.prs.slice().reverse().map(p=>`<p>${esc(p.date)} · ${esc(p.exercise)} · ${esc(p.weight)} × ${esc(p.reps)}</p>`).join(''):'Your PR and workout history will appear here.'}
+function render(){renderDiet();renderWorkout();renderHome();renderPR();let n=db.nutrition[day()]||{};['kcal','protein','carbs','fat'].forEach(k=>document.getElementById(k).value=n[k]||0)}
+dateEl.onchange=render;workoutDay.onchange=renderWorkout;
+waterPlus.onclick=()=>{dayData().water++;save();renderHome()};waterMinus.onclick=()=>{dayData().water=Math.max(0,dayData().water-1);save();renderHome()};
+saveNote.onclick=()=>{dayData().note=dailyNote.value;save()};
+addMeal.onclick=()=>{let name=newMealName.value.trim(),items=newMealItems.value.split('\n').map(x=>x.trim()).filter(Boolean);if(name&&items.length){db.meals.push({name,items});newMealName.value='';newMealItems.value='';save();render()}};
+addFoodNote.onclick=()=>{if(foodName.value.trim()){db.notes.push({date:day(),name:foodName.value,swap:foodSwap.value,nutrition:foodNutrition.value});[foodName,foodSwap,foodNutrition].forEach(x=>x.value='');save();render()}};
+saveNutrition.onclick=()=>{db.nutrition[day()]={kcal:kcal.value,protein:protein.value,carbs:carbs.value,fat:fat.value};save();alert('Nutrition estimates saved.')};
+addLibrary.onclick=()=>{if(libName.value.trim()){db.library.push({name:libName.value,note:libNote.value});libName.value='';libNote.value='';save();renderWorkout()}};
+saveSplit.onclick=()=>{let name=splitDay.value.trim(),items=splitExercises.value.split('\n').map(x=>x.trim()).filter(Boolean);if(name&&items.length){db.split[name]=items;save();renderWorkout();alert('Workout day saved.')}}
+saveRecovery.onclick=()=>{db.recovery[day()]={status:recovery.value,note:recoveryNote.value};save();alert('Recovery check-in saved.')};
+addPR.onclick=()=>{if(prExercise.value.trim()&&prWeight.value.trim()&&prReps.value){db.prs.push({exercise:prExercise.value,weight:prWeight.value,reps:prReps.value,date:prDate.value||day(),note:prNote.value});[prExercise,prWeight,prReps,prNote].forEach(x=>x.value='');save();renderPR()}};
+export.onclick=()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='arise-backup-'+day()+'.json';a.click();URL.revokeObjectURL(a.href)};
+restoreFile.onchange=async e=>{try{let parsed=JSON.parse(await e.target.files[0].text());if(parsed.meals&&parsed.split&&parsed.days){db=parsed;save();render();alert('Backup restored.')}else alert('This file does not look like an ARISE backup.')}catch{alert('Could not read this backup file.')}};
+tabs();render();if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
+</script>
+</body></html>

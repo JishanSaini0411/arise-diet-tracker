@@ -1,0 +1,16 @@
+{
+  "name": "ARISE \u2014 Small habits. Stronger you.",
+  "short_name": "ARISE",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f4ec",
+  "theme_color": "#606b3f",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
