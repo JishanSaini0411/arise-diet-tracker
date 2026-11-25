@@ -102,7 +102,7 @@ addLibrary.onclick=()=>{if(libName.value.trim()){db.library.push({name:libName.v
 saveSplit.onclick=()=>{let name=splitDay.value.trim(),items=splitExercises.value.split('\n').map(x=>x.trim()).filter(Boolean);if(name&&items.length){db.split[name]=items;save();renderWorkout();alert('Workout day saved.')}}
 saveRecovery.onclick=()=>{db.recovery[day()]={status:recovery.value,note:recoveryNote.value};save();alert('Recovery check-in saved.')};
 addPR.onclick=()=>{if(prExercise.value.trim()&&prWeight.value.trim()&&prReps.value){db.prs.push({exercise:prExercise.value,weight:prWeight.value,reps:prReps.value,date:prDate.value||day(),note:prNote.value});[prExercise,prWeight,prReps,prNote].forEach(x=>x.value='');save();renderPR()}};
-export.onclick=()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='arise-backup-'+day()+'.json';a.click();URL.revokeObjectURL(a.href)};
+document.getElementById('export').onclick=()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='arise-backup-'+day()+'.json';a.click();URL.revokeObjectURL(a.href)};
 restoreFile.onchange=async e=>{try{let parsed=JSON.parse(await e.target.files[0].text());if(parsed.meals&&parsed.split&&parsed.days){db=parsed;save();render();alert('Backup restored.')}else alert('This file does not look like an ARISE backup.')}catch{alert('Could not read this backup file.')}};
 tabs();render();if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
 </script>
